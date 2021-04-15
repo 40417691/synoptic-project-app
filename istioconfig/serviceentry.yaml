@@ -1,0 +1,15 @@
+#first block access to all external services
+#this config then allows requests to worldtimeapi.org
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: external-svc-http
+spec:
+  hosts:
+  - worldtimeapi.org
+  location: MESH_EXTERNAL
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+  resolution: DNS

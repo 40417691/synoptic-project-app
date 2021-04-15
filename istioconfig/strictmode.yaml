@@ -1,0 +1,35 @@
+#app to namesvc
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: namesvc-policy
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: namesvc
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/default/sa/default"]
+    to:
+    - operation:
+        methods: ["GET"]
+---
+#app to timesvc
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: timesvc-policy
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: timesvc
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/default/sa/default"]
+    to:
+    - operation:
+        methods: ["POST"]
