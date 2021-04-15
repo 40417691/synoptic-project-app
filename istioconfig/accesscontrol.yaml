@@ -1,0 +1,59 @@
+#default deny all rule
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: deny-all
+ namespace: default
+spec:
+  {}
+---
+#allow access to the main application
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: app-viewer
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: app
+  rules:
+  - to:
+    - operation:
+        methods: ["GET"]
+---
+#allow app to talk to name
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: name-viewer
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: name
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/default/sa/app-serviceaccount"]
+    to:
+    - operation:
+        methods: ["GET"]
+---
+#allow app to talk to time
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: time-viewer
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: time
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/default/sa/app-serviceaccount"]
+    to:
+    - operation:
+        methods: ["GET"]
