@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: time-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: time
+  template:
+    metadata:
+      labels:
+        app: time
+    spec:
+      serviceAccountName: time-serviceaccount
+      containers:
+      - name: time
+        image: time:latest
+        imagePullPolicy: IfNotPresent

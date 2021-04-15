@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: time-service
+  namespace: default
+spec:
+  type: LoadBalancer #set as external service (also load balances)
+  selector:
+    app: time
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: time-serviceaccount
+  labels:
+    account: time
