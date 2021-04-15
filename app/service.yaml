@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  namespace: default
+spec:
+  type: LoadBalancer #set as external service (also load balances)
+  selector:
+    app: app
+  ports:
+  - protocol: TCP
+    port: 81 #kubernetes service exposed on this port
+    targetPort: 81 #port application is listening on
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: app-serviceaccount
+  labels:
+    account: app
